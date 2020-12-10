@@ -1,0 +1,68 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat-k8s
+  labels:
+    app: tomcat-k8s
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tomcat-k8s
+  template:
+    metadata:
+      name: tomcat-k8s
+      labels:
+        app: tomcat-k8s
+    spec:
+      serviceAccountName: tomcat-k8s
+      containers:
+      - name: tomcat-k8s
+        image: cgshome2/tomcat-k8s:9.0.41
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: KUBERNETES_NAMESPACE 
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: KUBERNETES_LABELS 
+          value: "app=tomcat-k8s"
+        - name: DNS_MEMBERSHIP_SERVICE_NAME
+          value: "tomcat-k8s"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-k8s
+  labels:
+    app: tomcat-k8s
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+    description: "The service for tomcat cluster membership."
+spec:
+  clusterIP: None
+  ports:
+  - targetPort: 8080
+    port: 8080
+  selector:
+    app: tomcat-k8s
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: tomcat-k8s
+spec:
+  rules:
+  - host: tomcat-k8s.default.14.49.44.246.xip.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: tomcat-k8s
+          servicePort: 8080
