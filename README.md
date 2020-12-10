@@ -9,6 +9,15 @@ docker ps -a
 
 docker push cgshome2/tomcat-k8s:9.0.41
 ```
+## Configure
+```
+# cat k8s/deployment.yml
+apiVersion: extensions/v1beta1
+kind: Ingress
+spec:
+  rules:
+  - host: tomcat-k8s.default.14.49.44.246.xip.io # <-- change domain name 
+```
 
 ## Run in k8s
 
@@ -20,4 +29,4 @@ kubectl create -f k8s/deployment.yml
 ## Reference
 - https://tomcat.apache.org/tomcat-9.0-doc/api/org/apache/catalina/tribes/membership/cloud/DNSMembershipProvider.html
 - https://github.com/apache/tomcat/blob/master/java/org/apache/catalina/tribes/membership/cloud/KubernetesMembershipProvider.java
-- https://github.com/apache/tomcat/blob/630adb6272beb02cd709465441e841f2d362b6fb/java/org/apache/catalina/tribes/membership/cloud/CloudMembershipProvider.java#L90
+- http://mlab.run/2020/01/04/k8s-ha-1/
