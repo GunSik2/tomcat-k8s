@@ -24,13 +24,8 @@ spec:
         ports:
         - containerPort: 8080
         env:
-        - name: KUBERNETES_NAMESPACE 
-          valueFrom:
-            fieldRef:
-              apiVersion: v1
-              fieldPath: metadata.namespace
-        - name: KUBERNETES_LABELS 
-          value: "app=tomcat-k8s"
+        - name: DNS_MEMBERSHIP_SERVICE_NAME
+          value: "tomcat-k8s"
 
 ---
 apiVersion: v1
@@ -45,7 +40,7 @@ metadata:
 spec:
   clusterIP: None
   ports:
-  - targetPort: 8080
+  - name: membership
     port: 8080
   selector:
     app: tomcat-k8s
