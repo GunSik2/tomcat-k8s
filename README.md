@@ -26,6 +26,14 @@ kubectl create -f k8s/serviceaccount.yml
 kubectl create -f k8s/deployment.yml
 ```
 
+## Test
+- Access : 
+  - http://tomcat-k8s.default.14.49.44.246.xip.io:8888/session.jsp
+  - http://tomcat-k8s.default.14.49.44.246.xip.io:8888/index.jsp
+
+![](https://user-images.githubusercontent.com/11453229/101763878-b7973900-3b22-11eb-93dc-273e59482217.png)
+
+
 ## Reference
 - https://tomcat.apache.org/tomcat-9.0-doc/api/org/apache/catalina/tribes/membership/cloud/DNSMembershipProvider.html
 - https://github.com/apache/tomcat/blob/master/java/org/apache/catalina/tribes/membership/cloud/KubernetesMembershipProvider.java
