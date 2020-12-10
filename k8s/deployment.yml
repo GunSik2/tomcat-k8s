@@ -31,8 +31,6 @@ spec:
               fieldPath: metadata.namespace
         - name: KUBERNETES_LABELS 
           value: "app=tomcat-k8s"
-        - name: DNS_MEMBERSHIP_SERVICE_NAME
-          value: "tomcat-k8s"
 
 ---
 apiVersion: v1
